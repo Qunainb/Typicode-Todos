@@ -23,4 +23,30 @@ function addTodoToDom(todo) {
   document.getElementById("todo-list").appendChild(div);
 }
 
+// Creating Todo Items
+function createTodo(event) {
+  event.preventDefault();
+
+  const newTodo = {
+    title: event.target.firstElementChild.value,
+    completed: false,
+  };
+
+  fetch(apiUrl, {
+    method: "POST",
+    body: JSON.stringify(newTodo),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      addTodoToDom(data);
+    });
+}
+
+document.querySelector("#todo-form").addEventListener("submit", createTodo);
+
 getTodos();
