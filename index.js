@@ -75,7 +75,25 @@ function updateTodo(id, completed) {
     });
 }
 
+// Delete Todo
+function deleteTodo(event) {
+  if (event.target.classList.contains("todo")) {
+    const id = event.target.dataset.id;
+
+    fetch(`${apiUrl}/${id}`, {
+      method: "DELETE",
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then(() => {
+        event.target.remove();
+      });
+  }
+}
+
 document.querySelector("#todo-form").addEventListener("submit", createTodo);
 document.querySelector("#todo-list").addEventListener("click", toggleCompleted);
+document.querySelector("#todo-list").addEventListener("dblclick", deleteTodo);
 
 getTodos();
